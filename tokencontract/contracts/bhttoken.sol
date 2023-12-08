@@ -1,34 +1,45 @@
-// SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.18;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 
-// Uncomment this line to use console.log
-// import "hardhat/console.sol";
+import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Pausable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 
-contract BHTTOKEN {
-    uint public unlockTime;
-    address payable public owner;
+contract Bharat is ERC1155, ERC1155Pausable, Ownable, ERC1155Burnable {
+    constructor(address initialOwner) ERC1155("") Ownable(initialOwner) {}
 
-    event Withdrawal(uint amount, uint when);
-
-    constructor(uint _unlockTime) payable {
-        require(
-            block.timestamp < _unlockTime,
-            "Unlock time should be in the future"
-        );
-
-        unlockTime = _unlockTime;
-        owner = payable(msg.sender);
+    // In case of emergency smart contract can be paused using this by Owner
+    function pause() public onlyOwner {
+        _pause();
     }
 
-    function withdraw() public {
-        // Uncomment this line, and the import of "hardhat/console.sol", to print a log in your terminal
-        // console.log("Unlock time is %o and block timestamp is %o", unlockTime, block.timestamp);
+    // Once everything is okay paused contract can be then unpaused using this by Owner
+    function unpause() public onlyOwner {
+        _unpause();
+    }
 
-        require(block.timestamp >= unlockTime, "You can't withdraw yet");
-        require(msg.sender == owner, "You aren't the owner");
+    // Getting the hash from frontend and backend to verify the user and then minting the token accordingly
+    function areEqual(
+        uint256 fromFrontend,
+        uint256 fromBackend,
+        address account,
+        uint256 id,
+        uint256 amount,
+        bytes memory data
+    ) public onlyOwner {
+        require(fromFrontend == fromBackend, "Unable to verify you!!!!");
+        _mint(account, id, amount, data);
+    }
 
-        emit Withdrawal(address(this).balance, block.timestamp);
+    // The following functions are overrides required by Solidity.
 
-        owner.transfer(address(this).balance);
+    function _update(
+        address from,
+        address to,
+        uint256[] memory ids,
+        uint256[] memory values
+    ) internal override(ERC1155, ERC1155Pausable) {
+        super._update(from, to, ids, values);
     }
 }
