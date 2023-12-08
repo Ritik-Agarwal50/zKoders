@@ -9,6 +9,9 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 contract Bharat is ERC1155, ERC1155Pausable, Ownable, ERC1155Burnable {
     constructor(address initialOwner) ERC1155("") Ownable(initialOwner) {}
 
+    uint256 private constant BHT = 0;
+    uint256 private constant USA = 1;
+
     // In case of emergency smart contract can be paused using this by Owner
     function pause() public onlyOwner {
         _pause();
@@ -25,14 +28,26 @@ contract Bharat is ERC1155, ERC1155Pausable, Ownable, ERC1155Burnable {
         uint256 fromBackend,
         address account,
         uint256 id,
-        uint256 amount,
         bytes memory data
     ) public onlyOwner {
         require(fromFrontend == fromBackend, "Unable to verify you!!!!");
-        _mint(account, id, amount, data);
+        _mint(account, id, 1, data);
     }
 
-    // The following functions are overrides required by Solidity.
+    // The following functions are overrides required by Solidity and to make token soulbound.
+
+    function burn(
+        address account,
+        uint256 id,
+        uint256 value
+    ) public virtual override onlyOwner {
+        if (
+            account != _msgSender() && !isApprovedForAll(account, _msgSender())
+        ) {
+            revert ERC1155MissingApprovalForAll(_msgSender(), account);
+        }
+        _burn(account, id, value);
+    }
 
     function _update(
         address from,
