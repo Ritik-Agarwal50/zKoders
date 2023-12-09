@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 
 contract Bharat is ERC1155, ERC1155Pausable, Ownable, ERC1155Burnable {
-    constructor(address initialOwner) ERC1155("") Ownable(initialOwner) {}
+    constructor() ERC1155("") Ownable(msg.sender) {}
 
     uint256 private constant BHT = 0;
     uint256 private constant USA = 1;
