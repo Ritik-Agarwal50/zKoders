@@ -30,7 +30,10 @@ const Page = () => {
   return (
     <>
       {" "}
-      <div className="flex justify-center align-center min-h-screen">
+      <div
+        className=" bg-cover bg-center flex justify-center align-center min-h-screen"
+        style={{ backgroundImage: 'url("/images/2d-graphic.jpg")' }}
+      >
         {component}
       </div>
     </>
