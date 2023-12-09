@@ -1,83 +1,87 @@
 "use client";
 import React, { useState } from "react";
-import OtpInput from "react18-input-otp";
-interface StepComponentProps {
-  onSubmit: () => void;
-}
+import OtpInput from "react-otp-input";
+import { BsInfoCircle } from "react-icons/bs";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
-const Otp: React.FC<StepComponentProps> = ({ onSubmit }) => {
-  const [otp, setOtp] = useState<number>(0);
-  const handleChange = (enteredOtp: number) => {
-    setOtp(enteredOtp);
-  };
+export default function App() {
+  const [otp, setOtp] = useState("");
+
   return (
     <>
-      <div className="relative flex min-h-screen flex-col justify-center overflow-hidden bg-gray-50 py-12">
-        <div className="relative bg-white px-6 pt-10 pb-9 shadow-xl mx-auto w-full max-w-lg rounded-2xl">
-          <div className="mx-auto flex w-full max-w-md flex-col space-y-16">
-            <div className="flex flex-col items-center justify-center text-center space-y-2">
-              <div className="font-semibold text-3xl">
-                <p>Email Verification</p>
-              </div>
-              <div className="flex flex-row text-sm font-medium text-gray-400">
-                <p>We have sent a code to your email ba**@dipainhouse.com</p>
-              </div>
+      <div className="flex flex-col justify-center">
+        {" "}
+        <Card className="w-[550px] rounded-full">
+          <CardHeader>
+            <div className="flex flex-row justify-between items-center gap-1">
+              {" "}
+              <CardTitle className="text-4xl mb-6">Identity</CardTitle>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="mb-6">
+                    <BsInfoCircle />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Secured by Government of Bharat</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </div>
+            <p className="text-2xl p-2 font-bold pt-10 ">OTP</p>
 
-            <div>
-              <form action="" method="post">
-                <div className="flex flex-col space-y-16">
-                  <div className="flex flex-row items-center justify-between mx-auto w-full max-w-xs">
-                    <div className="w-32 h-32 ">
-                      <input
-                        className="p-5 h-8 w-8 flex flex-col items-center justify-center text-center  outline-none rounded-xl border border-red-600 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                        type="number"
-                        name=""
-                        id=""
-                        maxLength="1"
-                      />
-                    </div>
-                    <div className="w-16 h-16 ">
-                      <input
-                        className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border-1 border-red-600 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                        type="number"
-                        name=""
-                        id=""
-                        maxLength={1}
-                      />
-                    </div>
-                    <div className="w-16 h-16 ">
-                      <input type="number" name="" id="" maxLength={1} />
-                    </div>
-                    <div className="w-16 h-16 ">
-                      <input
-                        className="w-full h-full flex flex-col items-center justify-center text-center px-5 outline-none rounded-xl border border-red-600 text-lg bg-white focus:bg-gray-50 focus:ring-1 ring-blue-700"
-                        type="number"
-                        name=""
-                        id=""
-                        maxLength={1}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex flex-col space-y-5">
-                    <div>
-                      <button
-                        onClick={onSubmit}
-                        className="flex flex-row items-center justify-center text-center w-full border rounded-xl outline-none py-5 bg-blue-700 border-none  text-sm shadow-sm"
-                      >
-                        Verify Account
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
+            <CardDescription className="font-semibold">
+              Check your registered mobile no. for OTP
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {/* <p className="text-sm text-red-600">adddhar number was invalid </p> */}
+          </CardContent>
+          <CardFooter className="flex">
+            <div className="flex flex-col justify-center items-center space-y-3">
+              <OtpInput
+                containerStyle={{
+                  width: "80px",
+                  height: "60px",
+                  padding: "200px",
+                  background: "purple",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  borderRadius: "60px",
+                }}
+                inputStyle={{
+                  width: "40px",
+                  height: "40px",
+                  border: "3px solid green",
+                  padding: "30px",
+                }}
+                value={otp}
+                onChange={setOtp}
+                numInputs={4}
+                renderSeparator={<span>-</span>}
+                renderInput={(props) => <input {...props} />}
+              />
+              <p>{otp}</p>
+              <button className="p-2 text-2xl bg-green-400">
+                Get Verified
+              </button>
             </div>
-          </div>
-        </div>
+          </CardFooter>
+        </Card>
       </div>
     </>
   );
-};
-
-export default Otp;
+}

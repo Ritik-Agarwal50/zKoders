@@ -1,14 +1,14 @@
-'use client';
-import React, { useState } from 'react';
-import { BsInfoCircle } from 'react-icons/bs';
-import { Button } from '@/components/ui/button';
-import { abi } from '../constants/index';
+"use client";
+import React, { useState } from "react";
+import { BsInfoCircle } from "react-icons/bs";
+import { Button } from "@/components/ui/button";
+import { abi } from "../constants/index";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 import {
   Card,
   CardContent,
@@ -16,16 +16,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { ethers, Contract } from 'ethers';
+} from "@/components/ui/card";
+// import { ethers, Contract } from 'ethers';
 
 interface StepComponentProps {
   onSubmit: () => void;
 }
 
 const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
-  const [aadharInput, setAadharInput] = useState('');
-  /* Below code Is for interacting with contract*/
+  const [aadharInput, setAadharInput] = useState("");
+  /* Below code Is for interacting with contract
   const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
   const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
   // Create wallet instance
@@ -45,11 +45,11 @@ const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
 
   return (
     <div className="flex flex-col justify-center">
-      {' '}
+      {" "}
       <Card className="w-[550px]">
         <CardHeader>
           <div className="flex flex-row justify-between items-center gap-1">
-            {' '}
+            {" "}
             <CardTitle>Identity</CardTitle>
             <TooltipProvider>
               <Tooltip>
@@ -89,7 +89,7 @@ const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
           {/* <p className="text-sm text-red-600">adddhar number was invalid </p> */}
         </CardContent>
         <CardFooter className="flex">
-          <Button className="w-full" onClick={getNameOftoken}>
+          <Button className="w-full" onClick={onSubmit}>
             Deploy
           </Button>
         </CardFooter>
