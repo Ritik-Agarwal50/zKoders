@@ -1,8 +1,8 @@
 'use client';
 import React, { useState } from 'react';
-import { Input } from '@/components/ui/input';
 import { BsInfoCircle } from 'react-icons/bs';
 import { Button } from '@/components/ui/button';
+import { abi } from '../constants/index';
 import {
   Tooltip,
   TooltipContent,
@@ -17,18 +17,32 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import { ethers, Contract } from 'ethers';
+
 interface StepComponentProps {
   onSubmit: () => void;
 }
 
 const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
   const [aadharInput, setAadharInput] = useState('');
-  console.log(aadharInput);
+  /* Below code Is for interacting with contract*/
+  const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
+  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
+  // Create wallet instance
+  const wallet = new ethers.Wallet(`0x${privateKey}`);
+  // Create provider
+  const provider = ethers.getDefaultProvider('https://sepolia-rpc.scroll.io');
+  // Connect signer to provider
+  const signer = wallet.connect(provider);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value);
+  const contract = new Contract(`0x${contractAddress}`, abi, signer);
+
+  async function getNameOftoken() {
+    const own = await contract.owner();
+    console.log(own);
   }
+  /* Above code Is for interacting with contract */
+
   return (
     <div className="flex flex-col justify-center">
       {' '}
@@ -75,7 +89,7 @@ const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
           {/* <p className="text-sm text-red-600">adddhar number was invalid </p> */}
         </CardContent>
         <CardFooter className="flex">
-          <Button className="w-full" onClick={onSubmit}>
+          <Button className="w-full" onClick={getNameOftoken}>
             Deploy
           </Button>
         </CardFooter>
