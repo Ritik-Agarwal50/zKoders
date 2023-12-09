@@ -1,14 +1,13 @@
-"use client";
-import React, { useState } from "react";
-import { BsInfoCircle } from "react-icons/bs";
-import { Button } from "@/components/ui/button";
-import { abi } from "../constants/index";
+'use client';
+import React, { useState } from 'react';
+import { BsInfoCircle } from 'react-icons/bs';
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   Card,
   CardContent,
@@ -16,40 +15,22 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-// import { ethers, Contract } from 'ethers';
+} from '@/components/ui/card';
 
 interface StepComponentProps {
   onSubmit: () => void;
 }
 
 const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
-  const [aadharInput, setAadharInput] = useState("");
-  /* Below code Is for interacting with contract
-  const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY;
-  const contractAddress = process.env.NEXT_PUBLIC_CONTRACT_ADDRESS;
-  // Create wallet instance
-  const wallet = new ethers.Wallet(`0x${privateKey}`);
-  // Create provider
-  const provider = ethers.getDefaultProvider('https://sepolia-rpc.scroll.io');
-  // Connect signer to provider
-  const signer = wallet.connect(provider);
-
-  const contract = new Contract(`0x${contractAddress}`, abi, signer);
-
-  async function getNameOftoken() {
-    const own = await contract.owner();
-    console.log(own);
-  }
-  /* Above code Is for interacting with contract */
+  const [aadharInput, setAadharInput] = useState('');
 
   return (
     <div className="flex flex-col justify-center">
-      {" "}
+      {' '}
       <Card className="w-[550px]">
         <CardHeader>
           <div className="flex flex-row justify-between items-center gap-1">
-            {" "}
+            {' '}
             <CardTitle>Identity</CardTitle>
             <TooltipProvider>
               <Tooltip>
@@ -90,7 +71,7 @@ const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
         </CardContent>
         <CardFooter className="flex">
           <Button className="w-full" onClick={onSubmit}>
-            Deploy
+            Get OTP
           </Button>
         </CardFooter>
       </Card>

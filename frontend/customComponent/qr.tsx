@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import QRCode from "react-qr-code";
-import { BellRing, Check } from "lucide-react";
+import React, { useState } from 'react';
+import QRCode from 'react-qr-code';
+import { BellRing, Check } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -8,20 +8,20 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
+import { cn } from '@/lib/utils';
+import { Button } from '@/components/ui/button';
 type CardProps = React.ComponentProps<typeof Card>;
 const notifications = [
   {
-    title: "Your call has been confirmed.",
-    description: "1 hour ago",
+    title: 'Your call has been confirmed.',
+    description: '1 hour ago',
   },
 
   {
-    title: "Your subscription is expiring soon!",
-    description: "2 hours ago",
+    title: 'Your subscription is expiring soon!',
+    description: '2 hours ago',
   },
 ];
 
@@ -33,20 +33,15 @@ function Qr({ className, ...props }: CardProps) {
   };
 
   return (
-    <div className="flex flex-col justify-center align-center min-h-screenflex justify-center align-center min-h-screen">
-      <Card className={cn("w-[380px]", className)} {...props}>
+    <div className="flex flex-col align-center min-h-screenflex justify-center align-center min-h-screen">
+      <Card className={cn('w-[380px]', className)} {...props}>
         <CardHeader>
           <CardTitle>Notifications</CardTitle>
           <CardDescription>You have 3 unread messages.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div className=" flex flex-col items-center space-x-4 rounded-md border p-4">
-            <QRCode
-              value={`QR Code #${count}`}
-              size={250}
-              level={"H"}
-              includeMargin={true}
-            />
+            <QRCode value={`QR Code #${count}`} size={250} level={'H'} />
 
             <p>Generated QR Codes: {count}</p>
 
