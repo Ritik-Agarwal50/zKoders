@@ -1,5 +1,6 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useStore } from '../store';
 import OtpInput from 'react-otp-input';
 import { BsInfoCircle } from 'react-icons/bs';
 import { abi } from '../constants/index';
@@ -18,12 +19,17 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ethers, Contract } from 'ethers';
-
-export default function App() {
+import { Button } from '@/components/ui/button';
+interface StepComponentProps {
+  onSubmit: () => void;
+}
+const Otp: React.FC<StepComponentProps> = ({ onSubmit }) => {
   const [otp, setOtp] = useState('');
+  const { qr, setQr } = useStore();
+  const { value, setIsPublic } = useStore();
 
   async function addHash(mintedHash: any) {
-    const response = await fetch('http://localhost:3000/api/addTrnxHash', {
+    const response = await fetch('https://sid-ten.vercel.app/api/addTrnxHash', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -38,13 +44,13 @@ export default function App() {
   }
 
   async function getVerified() {
-    const response = await fetch('http://localhost:3000/api/getAdandOtp', {
+    const response = await fetch('https://sid-ten.vercel.app/api/getAdandOtp', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        frontEndAadharNumber: 123456789012, // Aadhar number will come from frontend
+        frontEndAadharNumber: value, // Aadhar number will come from frontend
         otp: 1234, // OTP will come from frontend
       }),
     });
@@ -73,14 +79,17 @@ export default function App() {
   }
 
   async function callingMint() {
-    await mintTokenIfVerified(
-      1,
-      1,
-      '0x03C6FcED478cBbC9a4FAB34eF9f40767739D1Ff7', // Account will come from safe API
-      1,
-      '0x00'
-    );
+    // await mintTokenIfVerified(
+    //   1,
+    //   1,
+    //   '0x0A098Eda01Ce92ff4A4CCb7A4fFFb5A43EBC70DC', // Account will come from safe API
+    //   1,
+    //   '0x00'
+    // );
     getNameOftoken();
+    setQr(
+      'https://sepolia.scrollscan.dev/tx/0x37632fe23644208d48f930c631d3834dd0f4964e98c132ddab801f09eb511aaf'
+    );
   }
 
   async function mintTokenIfVerified(
@@ -103,12 +112,15 @@ export default function App() {
     console.log('Token has been minted and added to database !!');
   }
 
-  // async function getTokenCount(address: string) {
-  //   const count = await contract.balanceOf(address, 0);
-  //   console.log(count.toString());
-  // }
+  async function getTokenCount(address: string) {
+    const count = await contract.balanceOf(address, 0);
+    console.log(count.toString());
+  }
 
   /* Above code Is for interacting with contract */
+  useEffect(() => {
+    callingMint();
+  }, []);
 
   return (
     <>
@@ -146,35 +158,43 @@ export default function App() {
                   width: '80px',
                   height: '60px',
                   padding: '200px',
-                  background: 'purple',
+                  background: 'white',
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
                   borderRadius: '60px',
+                  borderColor: '#E299EF',
+                  borderWidth: '4px',
                 }}
                 inputStyle={{
                   width: '40px',
                   height: '40px',
-                  border: '3px solid green',
-                  padding: '30px',
+                  border: '3px solid #E299EF',
+                  // padding: "20px",
                 }}
                 value={otp}
                 onChange={setOtp}
                 numInputs={4}
-                renderSeparator={<span>-</span>}
+                renderSeparator={<span>.</span>}
                 renderInput={(props) => <input {...props} />}
               />
-              <p>{otp}</p>
+
+              {/* <p>{otp}</p>
+              <p>{value}</p> */}
+
               <button
                 className="p-2 text-2xl bg-green-400"
                 onClick={getVerified}
-              >
-                Get Verified
-              </button>
+              ></button>
+              <Button className="w-full mt-10" onClick={onSubmit}>
+                Get OTP
+              </Button>
             </div>
           </CardFooter>
         </Card>
       </div>
     </>
   );
-}
+};
+
+export default Otp;

@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { useStore } from '../store';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -27,6 +28,7 @@ const notifications = [
 
 function Qr({ className, ...props }: CardProps) {
   const [count, setCount] = useState(0);
+  const { qr, setQr } = useStore();
 
   const incrementCount = () => {
     setCount((prevCount) => prevCount + 1);
@@ -36,21 +38,15 @@ function Qr({ className, ...props }: CardProps) {
     <div className="flex flex-col align-center min-h-screenflex justify-center align-center min-h-screen">
       <Card className={cn('w-[380px]', className)} {...props}>
         <CardHeader>
-          <CardTitle>Notifications</CardTitle>
-          <CardDescription>You have 3 unread messages.</CardDescription>
+          <CardTitle>Download QR</CardTitle>
+          <CardDescription>Scan the code to verify.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div className=" flex flex-col items-center space-x-4 rounded-md border p-4">
-            <QRCode value={`QR Code #${count}`} size={250} level={'H'} />
-
-            <p>Generated QR Codes: {count}</p>
-
-            <button className="bg-red-300" onClick={incrementCount}>
-              Click Me
-            </button>
+            <QRCode value={qr} size={250} level={'H'} />
           </div>
           <div>
-            {notifications.map((notification, index) => (
+            {/* {notifications.map((notification, index) => (
               <div
                 key={index}
                 className="mb-4 grid grid-cols-[25px_1fr] items-start pb-4 last:mb-0 last:pb-0"
@@ -65,12 +61,12 @@ function Qr({ className, ...props }: CardProps) {
                   </p>
                 </div>
               </div>
-            ))}
+            ))} */}
           </div>
         </CardContent>
         <CardFooter>
           <Button className="w-full">
-            <Check className="mr-2 h-4 w-4" /> Mark all as read
+            <Check className="mr-2 h-4 w-4" /> Download
           </Button>
         </CardFooter>
       </Card>

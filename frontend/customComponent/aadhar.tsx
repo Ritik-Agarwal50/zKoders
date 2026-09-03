@@ -16,13 +16,17 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+// import Input from "./display";
+// import Display from "./display";
+import { useStore } from '../store';
 
 interface StepComponentProps {
   onSubmit: () => void;
 }
 
 const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
-  const [aadharInput, setAadharInput] = useState('');
+  const [aadharInput, setAadharInput] = useState(0);
+  const { value, setIsPublic } = useStore();
 
   return (
     <div className="flex flex-col justify-center">
@@ -58,17 +62,19 @@ const Aadhar: React.FC<StepComponentProps> = ({ onSubmit }) => {
                   className='` flex-1 w-full border-2 border-stone-900 placeholder:font-sans font-mono px-2 py-1 rounded-md shadow-md bg-transparent text-stone-200 placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-stone-500/50 ${
                   error !== "" && "!border-red-400/25"
                 }`'
-                  type="text"
+                  type="number"
                   name="contract"
-                  onChange={(e) => setAadharInput(e.target.value)}
+                  onChange={(e: any) => setIsPublic(e.target.value)}
                   placeholder="e.g. 123456789012"
                 />
               </div>
+              {/* <p>{value}</p> */}
             </div>
           </form>
 
           {/* <p className="text-sm text-red-600">adddhar number was invalid </p> */}
         </CardContent>
+
         <CardFooter className="flex">
           <Button className="w-full" onClick={onSubmit}>
             Get OTP
